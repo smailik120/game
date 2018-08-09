@@ -22,5 +22,8 @@ class CameraSystem : public System {
     void information(int posX, int posY, string text);
     int putThing(Entity* entity);
     void screenInventory();
+    void refreshScreen();
+    void clearScreen();
+    void endwinScreen();
 };
 #endif

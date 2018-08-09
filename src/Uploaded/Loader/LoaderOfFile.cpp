@@ -1,4 +1,6 @@
 #include <list>
+#include <utility>
+#include <map>
 #include <fstream>
 #include <string>
 #include <ctime>
@@ -24,7 +26,7 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         list<Entity>* things = new list<Entity>;
         entity.add("slots", new Slots(slots));
         entity.add("bag", new Bag(things));
-         entity.add("death", new Death());
+        entity.add("death", new Death());
     }
     if (s == '.') {
         entity.add("position", new Position(row, column));
@@ -89,6 +91,22 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         entity.setLayer(1);
     }
     return entity;
+}
+map<int, ButtonAction*>* LoaderOfFile::createButtonAction() {
+    map<int, ButtonAction*>* buttonAction = new  map<int, ButtonAction*>();
+    UpAction* up = new UpAction();
+    up->setName("move");
+    DownAction* down = new DownAction();
+    down->setName("move");
+    LeftAction* left = new LeftAction();
+    left->setName("move");
+    RightAction* right = new RightAction();
+    right->setName("move");
+    buttonAction->insert(pair<int, ButtonAction*>(w, up));
+    buttonAction->insert(pair<int, ButtonAction*>(a, left));
+    buttonAction->insert(pair<int, ButtonAction*>(s, down));
+    buttonAction->insert(pair<int, ButtonAction*>(d, right));
+    return buttonAction;
 }
 SystemManager& LoaderOfFile::manager() {
     systemManager = new SystemManager();

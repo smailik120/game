@@ -3,6 +3,8 @@
 #include <list>
 #include <string>
 #include <cstring>
+#include <utility>
+#include <map>
 #include <cstdlib>
 #include "../../Engine/Systems/CameraSystem.h"
 #include "../../Engine/Systems/MoveSystem.h"
@@ -24,10 +26,19 @@
 #include "../../Engine/Components/Anger.h"
 #include "../../Engine/Systems/SystemManager.h"
 #include "../../Engine/Components/Velocity.h"
+#include "../../Engine/ButtonActions/UpAction.h"
+#include "../../Engine/ButtonActions/LeftAction.h"
+#include "../../Engine/ButtonActions/DownAction.h"
+#include "../../Engine/ButtonActions/RightAction.h"
 class LoaderOfFile {
  private:
+    const int w =119;
+    const int a =97;
+    const int s =115;
+    const int d =100;
     Entity create(char s, int row, int column);
  public:
+    map<int, ButtonAction*>* createButtonAction();
     SystemManager* systemManager;
     LoaderOfFile();
     list<Scene>* load(string path);
