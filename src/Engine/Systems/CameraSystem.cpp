@@ -43,6 +43,7 @@ void CameraSystem::screenInventory() {
     clear();
     int posX = 0;
     int posY = 0;
+    const int i = 105;
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
     Entity player = entities->back();
@@ -57,9 +58,11 @@ void CameraSystem::screenInventory() {
         }
         posX++;
     }
+    information(posX, posY, "If you want exit press i");
     refresh();
-    while (getch() != 105) {
+    while (getch() != i) {
     }
+    this->update();
 }
 int CameraSystem::putThing(Entity* entity) {
     information(18, 26, "Do you want put " + entity->getName() + "?");
@@ -99,6 +102,7 @@ char* CameraSystem::drawStartScreen() {
     char* name = new char[20];
     getstr(name);
     clear();
+    noecho();
     return name;
 }
 void CameraSystem::screenAgain() {

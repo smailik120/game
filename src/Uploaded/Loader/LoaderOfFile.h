@@ -31,12 +31,14 @@
 #include "../../Engine/ButtonActions/LeftAction.h"
 #include "../../Engine/ButtonActions/DownAction.h"
 #include "../../Engine/ButtonActions/RightAction.h"
+#include "../../Engine/ButtonActions/InventoryAction.h"
 class LoaderOfFile {
  private:
     const int w =119;
     const int a =97;
     const int s =115;
     const int d =100;
+    const int i =105;
     Entity create(char s, int row, int column);
  public:
     map<int, ButtonAction*>* createButtonAction();

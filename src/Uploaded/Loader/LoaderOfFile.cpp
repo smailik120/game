@@ -102,10 +102,13 @@ map<int, ButtonAction*>* LoaderOfFile::createButtonAction() {
     left->setName("move");
     RightAction* right = new RightAction();
     right->setName("move");
+    InventoryAction* inventory = new InventoryAction();
+    inventory->setName("inventory");
     buttonAction->insert(pair<int, ButtonAction*>(w, up));
     buttonAction->insert(pair<int, ButtonAction*>(a, left));
     buttonAction->insert(pair<int, ButtonAction*>(s, down));
     buttonAction->insert(pair<int, ButtonAction*>(d, right));
+    buttonAction->insert(pair<int, ButtonAction*>(i, inventory));
     return buttonAction;
 }
 SystemManager& LoaderOfFile::manager() {

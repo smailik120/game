@@ -94,6 +94,9 @@ void MoveSystem::move(Entity* player, Entity* another) {
             }
 }
 void MoveSystem::update() {
+    Engine* engine = Engine::getEngine();
+    CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
+    cameraSystem->update();
     collide();
     collideAfterMove();
 }

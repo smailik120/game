@@ -44,8 +44,8 @@ void Engine::start() {
     buttonAction = loader->createButtonAction();
     list<Scene>::iterator it = Engine::scenes->begin();
     currentScene = &scenes->front();
-    CameraSystem* camerSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
-    playerName = camerSystem->drawStartScreen();
+    CameraSystem* cameraSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
+    playerName = cameraSystem->drawStartScreen();
 }
 int Engine::getNumberScene() {
     return numberScene;
