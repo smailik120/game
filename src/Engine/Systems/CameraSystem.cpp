@@ -9,8 +9,16 @@ void CameraSystem::draw(string s, int posX, int posY) {
         move(posX, posY);
     }
 }
+void CameraSystem::refreshScreen() {
+    refresh();
+}
+void CameraSystem::clearScreen() {
+    clear();
+}
+void CameraSystem::endwinScreen() {
+    endwin();
+}
 void CameraSystem::update() {
-    screenInventory();
     clear();
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();

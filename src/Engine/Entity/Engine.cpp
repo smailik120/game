@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <list>
+#include <map>
 #include <string>
 #include <iostream>
 #include "../Entity/Engine.h"
@@ -9,6 +10,9 @@ Engine::Engine() {
 }
 void Engine::update() {
     currentScene->update(this->manager);
+}
+void Engine::setMapButtonAction(std::map<int, ButtonAction*>* buttonAction) {
+    this->buttonAction = buttonAction;
 }
 void Engine::setCurrentScene(Entity* entity) {
     numberScene++;
@@ -37,6 +41,7 @@ void Engine::start() {
     LoaderOfFile* loader = new LoaderOfFile();
     Engine::scenes = loader->load("src/Uploaded/Levels/map.tx");
     manager = &loader->manager();
+    buttonAction = loader->createButtonAction();
     list<Scene>::iterator it = Engine::scenes->begin();
     currentScene = &scenes->front();
     CameraSystem* camerSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
@@ -69,6 +74,32 @@ SystemManager* Engine::getSystemManager() {
 void Engine::end() {
     exit = false;
     clear();
+    endwin();
+}
+void Engine::gameLoop() {
+    Engine* engine = Engine::getEngine();
+    list<Entity>* entities = engine->getCurrentScene()->getEntities();
+    CameraSystem* cameraSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
+    while (true) {
+        engine->update();
+        if (engine->getExit() == false) {
+            break;
+        }
+        list<Entity>* entities = engine->getCurrentScene()->getEntities();
+        refresh();
+        int ch = getch();
+        refresh();
+        while ((*buttonAction)[ch] != NULL) {
+            if ((*buttonAction)[ch]->getName() == "move") {
+                (*buttonAction)[ch]->Action(&entities->back());
+                break;
+            } else {
+                (*buttonAction)[ch]->Action(&entities->back());
+                ch = getch();
+            }
+            }
+        }
+        cameraSystem->clearScreen();
     endwin();
 }
 

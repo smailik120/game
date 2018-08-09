@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -33,30 +32,9 @@
 #include "../Engine/ButtonActions/DownAction.h"
 #include "../Engine/ButtonActions/RightAction.h"
 int main(int argc, char* argv[]) {
-    map<int, ButtonAction*> buttonAction;
-    buttonAction.insert(pair<int, ButtonAction*>(119, new UpAction));
-    buttonAction.insert(pair<int, ButtonAction*>(97, new LeftAction));
-    buttonAction.insert(pair<int, ButtonAction*>(115, new DownAction));
-    buttonAction.insert(pair<int, ButtonAction*>(100, new RightAction));
-    int i = 0;
     initscr();
     keypad(stdscr, true);
     Engine* engine = Engine::getEngine();
-    list<Entity>* entities = engine->getCurrentScene()->getEntities();
-    while (true) {
-        engine->update();
-        if (engine->getExit() == false) {
-            break;
-        }
-        list<Entity>* entities = engine->getCurrentScene()->getEntities();
-        refresh();
-        int ch = getch();
-        refresh();
-        if (buttonAction[ch] != NULL) {
-            buttonAction[ch]->Action(&entities->back());
-        }
-        clear();
-    }
-    endwin();
+    engine->gameLoop();
     return 0;
 }
