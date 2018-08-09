@@ -9,5 +9,6 @@ class Bag : public Component {
  public:
     explicit Bag(list<Entity>* things);
     list<Entity>* getThings();
+    Entity* getThingByNumber(int number);
 };
 #endif

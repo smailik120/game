@@ -6,8 +6,8 @@ class ButtonAction {
  private:
     std::string nameAction;
  public:
-    virtual void setName(std::string name);
-    virtual std::string getName();
+    void setName(std::string name);
+    std::string getName();
     virtual void Action(Entity *player) = 0;
 };
 #endif

@@ -1,4 +1,5 @@
 #include <list>
+#include <string>
 #include "../Entity/Entity.h"
 #include "../Components/Component.h"
 #ifndef _SLOTS_H
@@ -12,5 +13,6 @@ class Slots : public Component {
     Entity* getHelmet();
     Entity* getArmor();
     Entity* getBridge();
+    void eraseByName(std::string name);
 };
 #endif

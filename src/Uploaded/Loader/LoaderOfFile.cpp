@@ -65,6 +65,9 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         helmet.setName("helmet");
         helmet.setLayer(1);
         helmet.add("death", new Death());
+        helmet.add("active", new Active());
+        armor.add("active", new Active());
+        bridge.add("active", new Active());
         armor.add("health", new Health(10));
         armor.add("sprite", new Sprite('a'));
         armor.setName("armor");
@@ -110,6 +113,16 @@ map<int, ButtonAction*>* LoaderOfFile::createButtonAction() {
     buttonAction->insert(pair<int, ButtonAction*>(d, right));
     buttonAction->insert(pair<int, ButtonAction*>(i, inventory));
     return buttonAction;
+}
+map<string, Collision*>* LoaderOfFile::createInventoryAction() {
+    map<string, Collision*>* inventoryAction = new  map<string, Collision*>();
+    HelmetAction* helmet = new HelmetAction();
+    inventoryAction->insert(pair<string, Collision*>("helmet", helmet));
+    BridgeAction* bridge = new BridgeAction();
+    inventoryAction->insert(pair<string, Collision*>("bridge", bridge));
+    ArmorAction* armor = new ArmorAction();
+    inventoryAction->insert(pair<string, Collision*>("armor", armor));
+    return inventoryAction;
 }
 SystemManager& LoaderOfFile::manager() {
     systemManager = new SystemManager();

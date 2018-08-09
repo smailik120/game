@@ -14,7 +14,7 @@ void CollisionPlayerHelmet::Action(Entity* player, Entity* helmet) {
     Entity entity;
     entity.add("active", new Active());
     entity.add("health", new Health(healthHelmet->getHealth()));
-    entity.add("health", new Death());
+    entity.add("death", new Death());
     entity.setName("helmet");
     listBag->push_front(entity);
     Engine* engine = Engine::getEngine();
@@ -22,9 +22,6 @@ void CollisionPlayerHelmet::Action(Entity* player, Entity* helmet) {
     int change = cameraSystem->putThing(helmet);
     if (change == 121) {
         if (slots->getHelmet() == NULL) {
-            Entity entity;
-            entity.add("active", new Active());
-            entity.add("health", new Health(healthHelmet->getHealth()));
             listSlots->push_front(entity);
         }
     }

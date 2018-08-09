@@ -1,4 +1,5 @@
 #include <list>
+#include <string>
 #include "../Components/Slots.h"
 Slots::Slots(list<Entity>* slots) {
     this->slots = slots;
@@ -32,4 +33,12 @@ Entity* Slots::getBridge() {
         }
     }
     return NULL;
+}
+void Slots::eraseByName(std::string name) {
+    for (list<Entity>::iterator it = slots->begin(); it != slots->end(); it++) {
+        if (it->getName() == name) {
+            slots->erase(it);
+            break;
+        }
+    }
 }

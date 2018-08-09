@@ -4,6 +4,9 @@
 #include <map>
 #include<iterator>
 #include <string>
+#include "../InventoryActions/HelmetAction.h"
+#include "../InventoryActions/BridgeAction.h"
+#include "../InventoryActions/ArmorAction.h"
 #include "../Entity/Scene.h"
 #include "../../WorkWithFiles/Writer.h"
 #include "../../WorkWithFiles/Reader.h"
@@ -17,6 +20,7 @@
 class Engine {
  private:
     map<int, ButtonAction*>* buttonAction;
+    map<string, Collision*>* inventoryAction;
     char* playerName;
     bool exit = true;
     Writer<string>* writerToTable = new Writer<string>("src/Uploaded/Tables/2.txt");
@@ -33,6 +37,8 @@ class Engine {
     int numberScene = 1;
     void update();
     void setMapButtonAction(std::map<int, ButtonAction*>* buttonAction);
+    void setMapInventoryAction(std::map<string, Collision*>* inventoryAction);
+    std::map<string, Collision*>* getMapActionsInventory();
     void setCurrentScene(Entity *entity);
     void setScene(int temp);
     void setPlayerName(char* name);

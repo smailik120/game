@@ -8,7 +8,7 @@
 #include "../Components/Position.h"
 #include "../Components/Slots.h"
 class SlotSystem : public System {
- private:
+ public:
     void update();
     bool validate(Entity* entity);
 };

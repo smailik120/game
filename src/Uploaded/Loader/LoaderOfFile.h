@@ -32,6 +32,7 @@
 #include "../../Engine/ButtonActions/DownAction.h"
 #include "../../Engine/ButtonActions/RightAction.h"
 #include "../../Engine/ButtonActions/InventoryAction.h"
+#include "../../Engine/Collisions/Collision.h"
 class LoaderOfFile {
  private:
     const int w =119;
@@ -42,6 +43,7 @@ class LoaderOfFile {
     Entity create(char s, int row, int column);
  public:
     map<int, ButtonAction*>* createButtonAction();
+    map<std::string, Collision*>* createInventoryAction();
     SystemManager* systemManager;
     LoaderOfFile();
     list<Scene>* load(string path);

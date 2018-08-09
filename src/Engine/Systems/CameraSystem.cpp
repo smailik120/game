@@ -44,11 +44,18 @@ void CameraSystem::screenInventory() {
     int posX = 0;
     int posY = 0;
     const int i = 105;
+    const int up = 258;
+    const int down = 259;
+    const int enter = 10;
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
-    Entity player = entities->back();
-    Bag* bag = static_cast<Bag*> (player.getComponent("bag"));
+    Entity* player = &entities->back();
+    Bag* bag = static_cast<Bag*> (player->getComponent("bag"));
     list<Entity>* listBag = bag->getThings();
+    Slots* slot = static_cast<Slots*> (player->getComponent("slots"));
+    list<Entity>* listSlots = slot->getSlots();
+    information(posX, posY, "If you want exit press i");
+    posX++;
     for (list<Entity>::iterator it = listBag->begin(); it != listBag->end(); it++) {
         string damageThing = "";
         string healthThing = "";
@@ -56,11 +63,36 @@ void CameraSystem::screenInventory() {
             Health* health = static_cast<Health*> (it->getComponent("health"));
             information(posX, posY, it->getName() + " health: " + to_string(health->getHealth()));
         }
+        if (it->getComponent("damage") != NULL) {
+            Damage* damage = static_cast<Damage*> (it->getComponent("damage"));
+            information(posX, posY, it->getName() + " damage: " + to_string(damage->getDamage()));
+        }
         posX++;
     }
-    information(posX, posY, "If you want exit press i");
     refresh();
-    while (getch() != i) {
+    posX = 0;
+    posY = 48;
+    move(posX, posY);
+    int ch = getch();
+    while (ch != i) {
+        if(ch == up){
+            posX++;
+            move(posX, posY);
+        }
+        if (ch == down) {
+            posX--;
+            move(posX, posY);
+        }
+        if (ch == enter) {
+            Entity* entity = bag->getThingByNumber(posX);
+            std::map<string, Collision*>* actions = engine->getMapActionsInventory();
+            if (entity != NULL) { 
+                (*actions)[entity->getName()]->Action(player, entity);
+            }
+            break;
+        }
+        ch = getch();
+        refresh();
     }
     this->update();
 }

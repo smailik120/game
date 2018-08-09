@@ -14,7 +14,7 @@ void CollisionPlayerArmor::Action(Entity* player, Entity* armor) {
     Entity entity;
     entity.add("active", new Active());
     entity.add("health", new Health(healthArmor->getHealth()));
-    entity.add("health", new Death());
+    entity.add("death", new Death());
     entity.setName("armor");
     listBag->push_front(entity);
     Engine* engine = Engine::getEngine();

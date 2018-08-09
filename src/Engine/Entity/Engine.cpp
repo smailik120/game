@@ -14,6 +14,9 @@ void Engine::update() {
 void Engine::setMapButtonAction(std::map<int, ButtonAction*>* buttonAction) {
     this->buttonAction = buttonAction;
 }
+void Engine::setMapInventoryAction(std::map<string, Collision*>* inventoryAction) {
+    this->inventoryAction = inventoryAction;
+}
 void Engine::setCurrentScene(Entity* entity) {
     numberScene++;
     int temp = numberScene;
@@ -42,6 +45,7 @@ void Engine::start() {
     Engine::scenes = loader->load("src/Uploaded/Levels/map.tx");
     manager = &loader->manager();
     buttonAction = loader->createButtonAction();
+    inventoryAction = loader->createInventoryAction();
     list<Scene>::iterator it = Engine::scenes->begin();
     currentScene = &scenes->front();
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
@@ -75,6 +79,9 @@ void Engine::end() {
     exit = false;
     clear();
     endwin();
+}
+std::map<string, Collision*>* Engine::getMapActionsInventory() {
+   return inventoryAction;
 }
 void Engine::gameLoop() {
     Engine* engine = Engine::getEngine();

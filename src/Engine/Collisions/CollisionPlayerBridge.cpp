@@ -14,7 +14,7 @@ void CollisionPlayerBridge::Action(Entity* player, Entity* bridge) {
     Entity entity;
     entity.add("active", new Active());
     entity.add("health", new Health(healthBridge->getHealth()));
-    entity.add("health", new Death());
+    entity.add("death", new Death());
     entity.setName("bridge");
     listBag->push_front(entity);
     Engine* engine = Engine::getEngine();
