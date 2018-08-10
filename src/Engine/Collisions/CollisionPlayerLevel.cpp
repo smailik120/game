@@ -41,7 +41,6 @@ void CollisionPlayerLevel::Action(Entity* player, Entity* level) {
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
     cameraSystem->drawFinalTable(scores);
     cameraSystem->screenAgain();
-    engine->playAgain();
     }
 }
 

@@ -13,6 +13,7 @@ class Slots : public Component {
     Entity* getHelmet();
     Entity* getArmor();
     Entity* getBridge();
+    Entity* getWeapon();
     void eraseByName(std::string name);
 };
 #endif

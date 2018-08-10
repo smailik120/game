@@ -34,10 +34,14 @@ void CameraSystem::update() {
     int currentScore = score->getScore();
     Health* health = static_cast<Health*> ((entities->back()).getComponent("health"));
     int currentHealth = health->getHealth();
+    Damage* damage = static_cast<Damage*> ((entities->back()).getComponent("damage"));
+    int currentDamage = damage->getDamage();
     string outScore = "Score:" + to_string(currentScore);
     string outHealth = "Health:" + to_string(currentHealth);
+    string outDamage = "Damage:" + to_string(currentDamage);
     information(20, 26, outScore);
     information(21, 26, outHealth);
+    information(22, 26, outDamage);
 }
 void CameraSystem::screenInventory() {
     clear();
@@ -54,19 +58,25 @@ void CameraSystem::screenInventory() {
     list<Entity>* listBag = bag->getThings();
     Slots* slot = static_cast<Slots*> (player->getComponent("slots"));
     list<Entity>* listSlots = slot->getSlots();
-    information(posX, posY, "If you want exit press i");
+    information(posX, posY, "If you want exit press i, if you want change thing that press enter");
     posX++;
     for (list<Entity>::iterator it = listBag->begin(); it != listBag->end(); it++) {
-        string damageThing = "";
-        string healthThing = "";
+        string info = "";
         if (it->getComponent("health") != NULL) {
             Health* health = static_cast<Health*> (it->getComponent("health"));
-            information(posX, posY, it->getName() + " health: " + to_string(health->getHealth()));
+            info = info + it->getName() + " " + "health" + " " + to_string(health->getHealth());
         }
         if (it->getComponent("damage") != NULL) {
             Damage* damage = static_cast<Damage*> (it->getComponent("damage"));
-            information(posX, posY, it->getName() + " damage: " + to_string(damage->getDamage()));
+            info = info + it->getName() + " " + "damage" + " " + to_string(damage->getDamage());
         }
+        if (it->getComponent("active") != NULL) {
+            Active* active = static_cast<Active*> (it->getComponent("active"));
+            if (active->getActive() == true) {
+                 info = info + " this thing is equip";
+            }
+        }
+        information(posX, posY, info);
         posX++;
     }
     refresh();

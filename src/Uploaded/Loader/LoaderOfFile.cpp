@@ -52,7 +52,7 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         entity.add("score", new Score(5));
         entity.add("velocity", new Velocity(0, 0, 1));
         entity.add("anger", new Anger(2));
-        entity.add("health", new Health(10));
+        entity.add("health", new Health(30));
         entity.add("damage", new Damage(10));
         entity.setName("tower");
         entity.setLayer(10);
@@ -60,6 +60,7 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         Entity helmet;
         Entity armor;
         Entity bridge;
+        Entity weapon;
         helmet.add("health", new Health(10));
         helmet.add("sprite", new Sprite('h'));
         helmet.setName("helmet");
@@ -78,9 +79,15 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         bridge.setName("bridge");
         bridge.setLayer(1);
         bridge.add("death", new Death());
+        weapon.add("damage", new Damage(10));
+        weapon.add("sprite", new Sprite('s'));
+        weapon.setName("weapon");
+        weapon.setLayer(1);
+        weapon.add("death", new Death());
         things->push_back(bridge);
         things->push_back(armor);
         things->push_back(helmet);
+        things->push_back(weapon);
         entity.add("bag", new Bag(things));
         entity.add("death", new Death());
     }
@@ -122,6 +129,8 @@ map<string, Collision*>* LoaderOfFile::createInventoryAction() {
     inventoryAction->insert(pair<string, Collision*>("bridge", bridge));
     ArmorAction* armor = new ArmorAction();
     inventoryAction->insert(pair<string, Collision*>("armor", armor));
+    WeaponAction* weapon = new WeaponAction();
+    inventoryAction->insert(pair<string, Collision*>("weapon", weapon));
     return inventoryAction;
 }
 SystemManager& LoaderOfFile::manager() {

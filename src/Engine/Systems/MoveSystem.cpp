@@ -34,6 +34,9 @@ MoveSystem::MoveSystem() {
     pair<string, string> playerBridge = pair<string, string>("player", "bridge");
     CollisionPlayerBridge* collisionPlayerBridge = new CollisionPlayerBridge;
     collisions.insert(pair<pair<string, string>, Collision*>(playerBridge, collisionPlayerBridge));
+    pair<string, string> playerSword = pair<string, string>("player", "weapon");
+    CollisionPlayerSword* collisionPlayerSword = new CollisionPlayerSword;
+    collisions.insert(pair<pair<string, string>, Collision*>(playerSword, collisionPlayerSword));
 }
 void MoveSystem::collideAfterMove() {
     Engine* engine = Engine::getEngine();

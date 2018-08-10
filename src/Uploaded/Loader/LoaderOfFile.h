@@ -32,6 +32,7 @@
 #include "../../Engine/ButtonActions/DownAction.h"
 #include "../../Engine/ButtonActions/RightAction.h"
 #include "../../Engine/ButtonActions/InventoryAction.h"
+#include "../../Engine/InventoryActions/WeaponAction.h"
 #include "../../Engine/Collisions/Collision.h"
 class LoaderOfFile {
  private:

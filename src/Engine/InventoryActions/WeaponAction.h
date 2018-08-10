@@ -1,6 +1,7 @@
-#ifndef _ARMORACTION_H
-#define _ARMORACTION_H
+#ifndef _WEAPONACTION_H
+#define _WEAPONACTION_H
 #include "../Entity/Entity.h"
+#include "../Components/Damage.h"
 #include "../Collisions/Collision.h"
 #include "../Components/Position.h"
 #include "../Components/Active.h"
@@ -10,7 +11,7 @@
 #include "../Systems/SlotSystem.h"
 #include "../Components/Slots.h"
 #include "../Components/Bag.h"
-class ArmorAction : public Collision {
+class WeaponAction : public Collision {
  public:
     void Action(Entity* player, Entity* thing);
 };

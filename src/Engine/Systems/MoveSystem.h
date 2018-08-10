@@ -19,6 +19,7 @@
 #include "../Collisions/CollisionPlayerTower.h"
 #include "../Collisions/CollisionTowerPlayer.h"
 #include "../Collisions/CollisionTowerBrick.h"
+#include "../Collisions/CollisionPlayerSword.h"
 #include "../Components/Position.h"
 #include "../Components/Velocity.h"
 using namespace std;
