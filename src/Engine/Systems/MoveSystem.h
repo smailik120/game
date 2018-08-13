@@ -11,8 +11,10 @@
 #include "../Entity/Entity.h"
 #include "../Collisions/Collision.h"
 #include "../Collisions/CollisionPlayerHelmet.h"
+#include "../Collisions/CollisionPlayerChest.h"
+#include "../Collisions/CollisionTowerTower.h"
 #include "../Collisions/CollisionPlayerArmor.h"
-#include "../Collisions/CollisionPlayerBridge.h"
+#include "../Collisions/CollisionPlayerPants.h"
 #include "../Collisions/CollisionPlayerLevel.h"
 #include "../Collisions/CollisionPlayerBrick.h"
 #include "../Collisions/CollisionPlayerMoney.h"
@@ -25,7 +27,7 @@
 using namespace std;
 class MoveSystem : public System {
  private:
-    map<pair<string, string>, Collision*> collisions;
+    map<pair<string, string>, Collision*>* collisions;
     Position* position;
     Velocity* velocity;
  public:

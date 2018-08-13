@@ -11,6 +11,9 @@ class Entity {
     map<string, Component*> components;
     int layer;
  public:
+    static int id;
+    int currentId;
+    Entity();
     bool operator < (const Entity& entity) const {
     return this->layer < entity.layer;
     }

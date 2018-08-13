@@ -12,7 +12,7 @@ class Slots : public Component {
     list<Entity>* getSlots();
     Entity* getHelmet();
     Entity* getArmor();
-    Entity* getBridge();
+    Entity* getPants();
     Entity* getWeapon();
     void eraseByName(std::string name);
 };

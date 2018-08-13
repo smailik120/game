@@ -8,6 +8,7 @@
 #include "../InventoryActions/BridgeAction.h"
 #include "../InventoryActions/ArmorAction.h"
 #include "../Entity/Scene.h"
+#include "../Components/Health.h"
 #include "../../WorkWithFiles/Writer.h"
 #include "../../WorkWithFiles/Reader.h"
 #include "../../Uploaded/Loader/LoaderOfFile.h"
@@ -23,8 +24,8 @@ class Engine {
     map<string, Collision*>* inventoryAction;
     char* playerName;
     bool exit = true;
-    Writer<string>* writerToTable = new Writer<string>("src/Uploaded/Tables/2.txt");
-    Reader<string>* readerOfTable = new Reader<string>("src/Uploaded/Tables/2.txt");
+    Writer<string>* writerToTable = new Writer<string>("Tables/2.txt");
+    Reader<string>* readerOfTable = new Reader<string>("Tables/2.txt");
     SystemManager *manager;
     list<Scene>* scenes;
     static Engine* engine;
@@ -35,10 +36,13 @@ class Engine {
  public:
     Scene* currentScene;
     int numberScene = 1;
+    std::map<pair<string, string>, Collision*>* collisionAction;
     void update();
     void setMapButtonAction(std::map<int, ButtonAction*>* buttonAction);
     void setMapInventoryAction(std::map<string, Collision*>* inventoryAction);
+    void setMapCollisionAction(std::map<pair<string, string>, Collision*>* collisionAction);
     std::map<string, Collision*>* getMapActionsInventory();
+    std::map<pair<string, string>, Collision*>* getMapCollisions();
     void setCurrentScene(Entity *entity);
     void setScene(int temp);
     void setPlayerName(char* name);

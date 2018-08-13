@@ -2,6 +2,10 @@
 #include <utility>
 #include "../Entity/Entity.h"
 using namespace std;
+Entity::Entity() {
+    currentId = id;
+    id++;
+}
 void Entity::setName(string name) {
     this->name = name;
 }
@@ -28,3 +32,4 @@ void Entity::dispose() {
         delete (*it).second;
     }
 }
+int Entity::id = 0;

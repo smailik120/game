@@ -10,7 +10,6 @@ class Position : public Component {
     bool operator == (const Position& position) const {
         return this->x == position.x && this->y == position.y;
     }
-    Position();
     Position(float x1, float y1);
     void setX(float x1);
     void setY(float y1);

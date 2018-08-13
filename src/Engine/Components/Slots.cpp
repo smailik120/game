@@ -25,9 +25,9 @@ Entity* Slots::getArmor() {
     }
     return NULL;
 }
-Entity* Slots::getBridge() {
+Entity* Slots::getPants() {
     for (list<Entity>::iterator it = slots->begin(); it != slots->end(); it++) {
-        if (it->getName() == "bridge") {
+        if (it->getName() == "pants") {
             return &(*it);
             break;
         }

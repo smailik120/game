@@ -17,6 +17,9 @@ void Engine::setMapButtonAction(std::map<int, ButtonAction*>* buttonAction) {
 void Engine::setMapInventoryAction(std::map<string, Collision*>* inventoryAction) {
     this->inventoryAction = inventoryAction;
 }
+void Engine::setMapCollisionAction(std::map<pair<string, string>, Collision*>* collisionAction) {
+    this->collisionAction = collisionAction;
+}
 void Engine::setCurrentScene(Entity* entity) {
     numberScene++;
     int temp = numberScene;
@@ -42,10 +45,11 @@ char* Engine::getPlayerName() {
 }
 void Engine::start() {
     LoaderOfFile* loader = new LoaderOfFile();
-    Engine::scenes = loader->load("src/Uploaded/Levels/map.tx");
+    Engine::scenes = loader->load("Levels/map.tx");
     manager = &loader->manager();
     buttonAction = loader->createButtonAction();
     inventoryAction = loader->createInventoryAction();
+    collisionAction = loader->createCollisions();
     list<Scene>::iterator it = Engine::scenes->begin();
     currentScene = &scenes->front();
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
@@ -83,11 +87,16 @@ void Engine::end() {
 std::map<string, Collision*>* Engine::getMapActionsInventory() {
    return inventoryAction;
 }
+std::map<pair<string, string>, Collision*>* Engine::getMapCollisions() {
+   return collisionAction;
+}
 void Engine::gameLoop() {
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
-    while (true) {
+    Entity* player = &entities->back();
+    Health* health = static_cast<Health*> (player->getComponent("health"));
+    while (health->getHealth() > 0) {
         engine->update();
         if (engine->getExit() == false) {
             break;

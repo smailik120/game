@@ -10,7 +10,7 @@ void BridgeAction::Action(Entity* player, Entity* thing) {
     list<Entity>* listBag = bag->getThings();
     Slots* slot = static_cast<Slots*> (player->getComponent("slots"));
     list<Entity>* listSlots = slot->getSlots();
-    Entity* temp = slot->getBridge();
+    Entity* temp = slot->getPants();
     Active* active = static_cast<Active*> (temp->getComponent("active"));
     active->setActive(false);
     Health* healthPlayer = static_cast<Health*> (player->getComponent("health"));

@@ -7,36 +7,6 @@
 #include "../Systems/MoveSystem.h"
 using namespace std;
 MoveSystem::MoveSystem() {
-    pair<string, string> playerBrick = pair<string, string>("player", "brick");
-    CollisionPlayerBrick* collisionPlayerBrick = new CollisionPlayerBrick;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerBrick, collisionPlayerBrick));
-    pair<string, string> playerMoney = pair<string, string>("player", "money");
-    CollisionPlayerMoney* collisionPlayerMoney = new CollisionPlayerMoney;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerMoney, collisionPlayerMoney));
-    pair<string, string> playerLevel = pair<string, string>("player", "up");
-    CollisionPlayerLevel* collisionPlayerLevel = new CollisionPlayerLevel;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerLevel, collisionPlayerLevel));
-    pair<string, string> playerTower = pair<string, string>("player", "tower");
-    CollisionPlayerTower* collisionPlayerTower = new CollisionPlayerTower;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerTower, collisionPlayerTower));
-    pair<string, string> towerPlayer = pair<string, string>("tower", "player");
-    CollisionTowerPlayer* collisionTowerPlayer = new CollisionTowerPlayer;
-    collisions.insert(pair<pair<string, string>, Collision*>(towerPlayer, collisionTowerPlayer));
-    pair<string, string> towerBrick = pair<string, string>("tower", "brick");
-    CollisionTowerBrick* collisionTowerBrick = new CollisionTowerBrick;
-    collisions.insert(pair<pair<string, string>, Collision*>(towerBrick, collisionTowerBrick));
-    pair<string, string> playerHelmet = pair<string, string>("player", "helmet");
-    CollisionPlayerHelmet* collisionPlayerHelmet = new CollisionPlayerHelmet;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerHelmet, collisionPlayerHelmet));
-    pair<string, string> playerArmor = pair<string, string>("player", "armor");
-    CollisionPlayerArmor* collisionPlayerArmor = new CollisionPlayerArmor;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerArmor, collisionPlayerArmor));
-    pair<string, string> playerBridge = pair<string, string>("player", "bridge");
-    CollisionPlayerBridge* collisionPlayerBridge = new CollisionPlayerBridge;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerBridge, collisionPlayerBridge));
-    pair<string, string> playerSword = pair<string, string>("player", "weapon");
-    CollisionPlayerSword* collisionPlayerSword = new CollisionPlayerSword;
-    collisions.insert(pair<pair<string, string>, Collision*>(playerSword, collisionPlayerSword));
 }
 void MoveSystem::collideAfterMove() {
     Engine* engine = Engine::getEngine();
@@ -52,9 +22,9 @@ void MoveSystem::collideAfterMove() {
                 string name = it->getName();
                 string name1 = it1->getName();
                 if (positionFirstEntity->getX() == positionSecondEntity->getX()) {
-                    if (positionFirstEntity->getY() == positionSecondEntity->getY()) {
-                        if (collisions[pair<string, string>(name1, name)] != 0) {
-                            collisions[pair<string, string>(name1, name)]->Action(&(*it), &(*it1));
+                    if (positionFirstEntity->getY() == positionSecondEntity->getY() && it->currentId != it1->currentId) {
+                        if ((*collisions)[pair<string, string>(name1, name)] != 0) {
+                            (*collisions)[pair<string, string>(name1, name)]->Action(&(*it), &(*it1));
                         }
                     }
                 }
@@ -98,25 +68,28 @@ void MoveSystem::move(Entity* player, Entity* another) {
 }
 void MoveSystem::update() {
     Engine* engine = Engine::getEngine();
+    collisions = engine->getMapCollisions();
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
     cameraSystem->update();
     collide();
     collideAfterMove();
 }
 void MoveSystem::collide() {
+    int k = 0;
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
     list<Entity>* velocityEntities = engine->getCurrentScene()->getVelocityEntities();
     for (list<Entity>::iterator it = velocityEntities->begin(); it != velocityEntities->end(); it++) {
         for (list<Entity>::iterator it1 = entities->begin(); it1 != entities->end(); it1++) {
+            k++;
             if (validate(&(*it)) && validate(&(*it1))) {
                 string name = it->getName();
                 string name1 = it1->getName();
-                if (collisions[pair<string, string>(name, name1)] != 0) {
+                if ((*collisions)[pair<string, string>(name, name1)] != 0) {
                     Position* pos = static_cast<Position*> ((&(*it))->getComponent("position"));
                     Position* pos1 = static_cast<Position*> ((&(*it1))->getComponent("position"));
-                    if (pos->getY() == pos1->getY() && pos1->getX() == pos->getX()) {
-                        collisions[pair<string, string>(name, name1)]->Action(&(*it), &(*it1));
+                    if (pos->getY() == pos1->getY() && pos1->getX() == pos->getX() && it->currentId != it1->currentId) {
+                        (*collisions)[pair<string, string>(name, name1)]->Action(&(*it), &(*it1));
                     }
                 }
             }

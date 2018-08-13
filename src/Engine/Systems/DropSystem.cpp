@@ -8,9 +8,9 @@ void DropSystem::update() {
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
         for (list<Entity>::iterator it = entities->begin(); it != entities->end(); it++) {
             if (validate(&(*it))) {
-                Health* health = static_cast<Health*> (it->getComponent("health"));
+                Death* death = static_cast<Death*> (it->getComponent("death"));
                 Bag* bag = static_cast<Bag*> ((&(*it))->getComponent("bag"));
-                if (health->isDeath()) {
+                if (death->getDeath()) {
                     list<Entity>* things = bag->getThings();
                     for (list<Entity>::iterator it1 = things->begin(); it1 != things->end(); it1++) {
                         Position* position = static_cast<Position*> ((&(*it))->getComponent("position"));
@@ -23,5 +23,5 @@ void DropSystem::update() {
         engine->getCurrentScene()->sortEntities();
 }
 bool DropSystem::validate(Entity* entity) {
-    return !(entity->getComponent("bag") == NULL || entity->getComponent("health") == NULL);
+    return !(entity->getComponent("bag") == NULL || entity->getComponent("death") == NULL);
 }

@@ -92,6 +92,7 @@ void CameraSystem::screenInventory() {
         if (ch == down) {
             posX--;
             move(posX, posY);
+            printw("<-");
         }
         if (ch == enter) {
             Entity* entity = bag->getThingByNumber(posX);
@@ -107,8 +108,8 @@ void CameraSystem::screenInventory() {
     this->update();
 }
 int CameraSystem::putThing(Entity* entity) {
-    information(18, 26, "Do you want put " + entity->getName() + "?");
-    information(19, 26, "If you want put this press y else press n");
+    information(18, 26, "Do you want take " + entity->getName() + "?");
+    information(19, 26, "If you want take this press y else press n");
     int ch = getch();
     while (ch != 121 && ch != 110) {
         ch = getch();

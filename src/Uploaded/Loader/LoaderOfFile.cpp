@@ -40,6 +40,23 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         entity.setName("brick");
         entity.setLayer(1);
     }
+    if (s == 'X') {
+        list<Entity>* things = new list<Entity>;
+        Entity helmet;
+        entity.add("position", new Position(row, column));
+        entity.add("sprite", new Sprite('X'));
+        entity.setName("chest");
+        entity.setLayer(2);
+        helmet.add("health", new Health(20));
+        helmet.add("sprite", new Sprite('h'));
+        helmet.setName("helmet");
+        helmet.setLayer(1);
+        helmet.add("death", new Death());
+        helmet.add("active", new Active());
+        entity.add("death", new Death());
+        things->push_back(helmet);
+        entity.add("bag", new Bag(things));
+    }
     if (s == '>') {
         entity.add("position", new Position(row, column));
         entity.add("sprite", new Sprite('>'));
@@ -48,7 +65,7 @@ Entity LoaderOfFile::create(char s, int row, int column) {
     }
     if (s == 'T') {
         entity.add("position", new Position(row, column));
-        entity.add("sprite", new Sprite('T'));
+        entity.add("sprite", new Sprite('E'));
         entity.add("score", new Score(5));
         entity.add("velocity", new Velocity(0, 0, 1));
         entity.add("anger", new Anger(2));
@@ -59,7 +76,7 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         list<Entity>* things = new list<Entity>;
         Entity helmet;
         Entity armor;
-        Entity bridge;
+        Entity pants;
         Entity weapon;
         helmet.add("health", new Health(10));
         helmet.add("sprite", new Sprite('h'));
@@ -68,23 +85,23 @@ Entity LoaderOfFile::create(char s, int row, int column) {
         helmet.add("death", new Death());
         helmet.add("active", new Active());
         armor.add("active", new Active());
-        bridge.add("active", new Active());
+        pants.add("active", new Active());
         armor.add("health", new Health(10));
         armor.add("sprite", new Sprite('a'));
         armor.setName("armor");
         armor.setLayer(1);
         armor.add("death", new Death());
-        bridge.add("health", new Health(10));
-        bridge.add("sprite", new Sprite('b'));
-        bridge.setName("bridge");
-        bridge.setLayer(1);
-        bridge.add("death", new Death());
+        pants.add("health", new Health(10));
+        pants.add("sprite", new Sprite('b'));
+        pants.setName("pants");
+        pants.setLayer(1);
+        pants.add("death", new Death());
         weapon.add("damage", new Damage(10));
         weapon.add("sprite", new Sprite('s'));
         weapon.setName("weapon");
         weapon.setLayer(1);
         weapon.add("death", new Death());
-        things->push_back(bridge);
+        things->push_back(pants);
         things->push_back(armor);
         things->push_back(helmet);
         things->push_back(weapon);
@@ -120,6 +137,46 @@ map<int, ButtonAction*>* LoaderOfFile::createButtonAction() {
     buttonAction->insert(pair<int, ButtonAction*>(d, right));
     buttonAction->insert(pair<int, ButtonAction*>(i, inventory));
     return buttonAction;
+}
+map<pair<string, string>, Collision*>*  LoaderOfFile::createCollisions() {
+    map<pair<string, string>, Collision*>* collisions = new map<pair<string, string>, Collision*>();
+    pair<string, string> playerBrick = pair<string, string>("player", "brick");
+    CollisionPlayerBrick* collisionPlayerBrick = new CollisionPlayerBrick();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerBrick, collisionPlayerBrick));
+    pair<string, string> playerMoney = pair<string, string>("player", "money");
+    CollisionPlayerMoney* collisionPlayerMoney = new CollisionPlayerMoney();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerMoney, collisionPlayerMoney));
+    pair<string, string> playerLevel = pair<string, string>("player", "up");
+    CollisionPlayerLevel* collisionPlayerLevel = new CollisionPlayerLevel();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerLevel, collisionPlayerLevel));
+    pair<string, string> playerTower = pair<string, string>("player", "tower");
+    CollisionPlayerTower* collisionPlayerTower = new CollisionPlayerTower();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerTower, collisionPlayerTower));
+    pair<string, string> towerPlayer = pair<string, string>("tower", "player");
+    CollisionTowerPlayer* collisionTowerPlayer = new CollisionTowerPlayer();
+    collisions->insert(pair<pair<string, string>, Collision*>(towerPlayer, collisionTowerPlayer));
+    pair<string, string> towerBrick = pair<string, string>("tower", "brick");
+    CollisionTowerBrick* collisionTowerBrick = new CollisionTowerBrick();
+    collisions->insert(pair<pair<string, string>, Collision*>(towerBrick, collisionTowerBrick));
+    pair<string, string> playerHelmet = pair<string, string>("player", "helmet");
+    CollisionPlayerHelmet* collisionPlayerHelmet = new CollisionPlayerHelmet();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerHelmet, collisionPlayerHelmet));
+    pair<string, string> playerArmor = pair<string, string>("player", "armor");
+    CollisionPlayerArmor* collisionPlayerArmor = new CollisionPlayerArmor();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerArmor, collisionPlayerArmor));
+    pair<string, string> playerPants = pair<string, string>("player", "pants");
+    CollisionPlayerPants* collisionPlayerPants = new CollisionPlayerPants();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerPants, collisionPlayerPants));
+    pair<string, string> playerSword = pair<string, string>("player", "weapon");
+    CollisionPlayerSword* collisionPlayerSword = new CollisionPlayerSword();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerSword, collisionPlayerSword));
+    pair<string, string> towerTower = pair<string, string>("tower", "tower");
+    CollisionTowerTower* collisionTowerTower = new CollisionTowerTower();
+    collisions->insert(pair<pair<string, string>, Collision*>(towerTower, collisionTowerTower));
+    pair<string, string> playerChest = pair<string, string>("player", "chest");
+    CollisionPlayerChest* collisionPlayerChest = new CollisionPlayerChest();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerChest, collisionPlayerChest));
+    return collisions;
 }
 map<string, Collision*>* LoaderOfFile::createInventoryAction() {
     map<string, Collision*>* inventoryAction = new  map<string, Collision*>();
@@ -174,7 +231,7 @@ list<Scene>* LoaderOfFile::load(string path) {
             }
         }
         currentLevelName++;
-        Scene* scene = new Scene(entities, "src/Uploaded/Tables/"+to_string(currentLevelName)+".txt");
+        Scene* scene = new Scene(entities, "Tables/"+to_string(currentLevelName)+".txt");
         scenes->push_back(*scene);
         entities = new list<Entity>;
     }

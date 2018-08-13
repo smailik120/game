@@ -1,7 +1,5 @@
 
 #include "../Components/Position.h"
-Position::Position() {
-}
 Position::Position(float x1, float y1) {
     x = x1;
     y = y1;

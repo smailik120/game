@@ -45,6 +45,7 @@ class LoaderOfFile {
  public:
     map<int, ButtonAction*>* createButtonAction();
     map<std::string, Collision*>* createInventoryAction();
+    map<pair<string, string>, Collision*>* createCollisions();
     SystemManager* systemManager;
     LoaderOfFile();
     list<Scene>* load(string path);
