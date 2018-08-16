@@ -8,18 +8,11 @@ Engine* Engine::engine = 0;
 Engine::Engine() {
     start();
 }
+
 void Engine::update() {
     currentScene->update(this->manager);
 }
-void Engine::setMapButtonAction(std::map<int, ButtonAction*>* buttonAction) {
-    this->buttonAction = buttonAction;
-}
-void Engine::setMapInventoryAction(std::map<string, Collision*>* inventoryAction) {
-    this->inventoryAction = inventoryAction;
-}
-void Engine::setMapCollisionAction(std::map<pair<string, string>, Collision*>* collisionAction) {
-    this->collisionAction = collisionAction;
-}
+
 void Engine::setCurrentScene(Entity* entity) {
     numberScene++;
     int temp = numberScene;
@@ -33,63 +26,83 @@ void Engine::setCurrentScene(Entity* entity) {
     }
     Engine::currentScene = &(*it);
 }
-void Engine::playAgain() {
-    start();
-    numberScene = 1;
-}
+
 void Engine::setPlayerName(char* name) {
     playerName = name;
 }
+
 char* Engine::getPlayerName() {
     return playerName;
 }
 void Engine::start() {
-    LoaderOfFile* loader = new LoaderOfFile();
-    Engine::scenes = loader->load("Levels/map.tx");
-    manager = &loader->manager();
-    buttonAction = loader->createButtonAction();
-    inventoryAction = loader->createInventoryAction();
-    collisionAction = loader->createCollisions();
+    LoaderBuilders* mapBuilders = new LoaderBuilders();
+    LoaderCollisions* mapCollisions = new LoaderCollisions();
+    LoaderSystemManager* systemManager = new LoaderSystemManager();
+    LoaderButtons* mapButtons = new LoaderButtons();
+    LoaderInventoryActions* mapInvetnoryACtions = new LoaderInventoryActions();
+    LoaderReaderRecords* recordsReader = new LoaderReaderRecords();
+    LoaderWriterRecords* recordsWriter = new LoaderWriterRecords();
+    readerOfTable = recordsReader->load();
+    writerToTable = recordsWriter->load();
+    manager = &systemManager->load();
+    builders = mapBuilders->load();
+    buttonAction = mapButtons->load();
+    inventoryAction = mapInvetnoryACtions->load();
+    collisionAction = mapCollisions->load();
+    LoaderGameMap* loader = new LoaderGameMap(builders);
+    Engine::scenes = loader->load("Levels/map.txt");
     list<Scene>::iterator it = Engine::scenes->begin();
     currentScene = &scenes->front();
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (this->callSystem("camera"));
     playerName = cameraSystem->drawStartScreen();
 }
+
 int Engine::getNumberScene() {
     return numberScene;
 }
+
 int Engine::getSizeLevels() {
 return scenes->size();
 }
+
 Scene* Engine::getCurrentScene() {
     return currentScene;
 }
+
 Writer<string>* Engine::getWriteToTable() {
     return writerToTable;
 }
+
 Reader<string>* Engine::getReadOfTable() {
     return readerOfTable;
 }
+
 System* Engine::callSystem(std::string name) {
     return manager->getSystem(name);
 }
+
 bool Engine::getExit() {
     return exit;
 }
+
 SystemManager* Engine::getSystemManager() {
     return manager;
 }
+
 void Engine::end() {
     exit = false;
     clear();
     endwin();
 }
+
 std::map<string, Collision*>* Engine::getMapActionsInventory() {
    return inventoryAction;
 }
+
 std::map<pair<string, string>, Collision*>* Engine::getMapCollisions() {
    return collisionAction;
 }
+
 void Engine::gameLoop() {
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
@@ -113,9 +126,9 @@ void Engine::gameLoop() {
                 (*buttonAction)[ch]->Action(&entities->back());
                 ch = getch();
             }
-            }
         }
-        cameraSystem->clearScreen();
+    }
+        clear();
     endwin();
 }
 

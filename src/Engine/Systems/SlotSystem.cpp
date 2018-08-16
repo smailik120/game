@@ -32,6 +32,7 @@ void SlotSystem::update() {
     playerHealth->setHealth(playerHealth->getHealth() + allHealth);
     playerDamage->setDamage(playerDamage->getDamage() + allDamage);
 }
+
 bool SlotSystem::validate(Entity* entity) {
     return !(entity->getComponent("active") == NULL);
 }

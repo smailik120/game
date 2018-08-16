@@ -13,17 +13,16 @@ class CameraSystem : public System {
     Camera* camera;
  public:
     void update();
-    void draw(string s, int posX, int posY);
+    void drawText(string s, int posX, int posY);
     bool validate(Entity* entity);
     void drawFinalTable(list<string> scores);
     char* drawStartScreen();
-    void screenAgain();
-    void loose();
-    void information(int posX, int posY, string text);
+    void drawSymbol(char s, int posX, int posY);
+    void drawLooseScreen();
     int putThing(Entity* entity);
     void screenInventory();
-    void refreshScreen();
+    void endGame();
     void clearScreen();
-    void endwinScreen();
+    void refreshScreen();
 };
 #endif

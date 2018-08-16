@@ -9,6 +9,5 @@ class Score : public Component {
     void setScore(int score);
     int getScore();
     bool isDeath();
-    void step();
 };
 #endif

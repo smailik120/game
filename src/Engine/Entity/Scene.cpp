@@ -15,22 +15,28 @@ Scene::Scene(list<Entity>* entitie, string name) {
         }
     }
 }
+
 Scene::Scene() {
 }
+
 void Scene::sortEntities() {
     entities->sort();
 }
+
 void Scene::setName(string name) {
     this->name = name;
 }
+
 string Scene::getName() {
     return name;
 }
+
 Scene::Scene(string name) {
     this->name = name;
     entities = new list<Entity>;
     velocityEntities = new list<Entity>;
 }
+
 void Scene::update(SystemManager* systemManager) {
     systemManager->start();
     while (!systemManager->isEmpty()) {
@@ -38,9 +44,11 @@ void Scene::update(SystemManager* systemManager) {
         systemManager->next();
     }
 }
+
 list<Entity>* Scene::getEntities() {
     return this->entities;
 }
+
 list<Entity>* Scene::getVelocityEntities() {
     return this->velocityEntities;
 }

@@ -11,7 +11,14 @@
 #include "../Components/Health.h"
 #include "../../WorkWithFiles/Writer.h"
 #include "../../WorkWithFiles/Reader.h"
-#include "../../Uploaded/Loader/LoaderOfFile.h"
+#include "../../Uploaded/Loader/LoaderGameMap.h"
+#include "../../Uploaded/Loader/LoaderCollisions.h"
+#include "../../Uploaded/Loader/LoaderBuilders.h"
+#include "../../Uploaded/Loader/LoaderButtons.h"
+#include "../../Uploaded/Loader/LoaderSystemManager.h"
+#include "../../Uploaded/Loader/LoaderInventoryActions.h"
+#include "../../Uploaded/Loader/LoaderReaderRecords.h"
+#include "../../Uploaded/Loader/LoaderWriterRecords.h"
 #include "../ButtonActions/ButtonAction.h"
 #include "../ButtonActions/LeftAction.h"
 #include "../ButtonActions/UpAction.h"
@@ -24,23 +31,20 @@ class Engine {
     map<string, Collision*>* inventoryAction;
     char* playerName;
     bool exit = true;
-    Writer<string>* writerToTable = new Writer<string>("Tables/2.txt");
-    Reader<string>* readerOfTable = new Reader<string>("Tables/2.txt");
     SystemManager *manager;
     list<Scene>* scenes;
     static Engine* engine;
     Engine(const Engine&);
     Engine();
-    Engine& operator = (Engine&);
 
  public:
+    Writer<string>* writerToTable;
+    Reader<string>* readerOfTable;
     Scene* currentScene;
     int numberScene = 1;
     std::map<pair<string, string>, Collision*>* collisionAction;
+    std::map<char, Builder*>* builders;
     void update();
-    void setMapButtonAction(std::map<int, ButtonAction*>* buttonAction);
-    void setMapInventoryAction(std::map<string, Collision*>* inventoryAction);
-    void setMapCollisionAction(std::map<pair<string, string>, Collision*>* collisionAction);
     std::map<string, Collision*>* getMapActionsInventory();
     std::map<pair<string, string>, Collision*>* getMapCollisions();
     void setCurrentScene(Entity *entity);
@@ -50,7 +54,6 @@ class Engine {
     Scene* getCurrentScene();
     int getNumberScene();
     int getSizeLevels();
-    void playAgain();
     void start();
     static Engine* getEngine() {
         if ( !engine )

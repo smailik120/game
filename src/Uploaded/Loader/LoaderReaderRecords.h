@@ -1,5 +1,5 @@
-#ifndef _LOADEROFFILE_H
-#define _LOADEROFFILE_H
+#ifndef _LOADERREADERRECORDS_H
+#define _LOADERREADERRECORDS_H
 #include <list>
 #include <string>
 #include <cstring>
@@ -11,7 +11,6 @@
 #include "../../Engine/Systems/ScoreSystem.h"
 #include "../../Engine/Entity/Scene.h"
 #include "../../Engine/Systems/DeleteSystem.h"
-#include "../../Engine/Systems/GenerateSystem.h"
 #include "../../Engine/Systems/SlotSystem.h"
 #include "../../Engine/Systems/DropSystem.h"
 #include "../../Engine/Components/Raiting.h"
@@ -34,22 +33,10 @@
 #include "../../Engine/ButtonActions/InventoryAction.h"
 #include "../../Engine/InventoryActions/WeaponAction.h"
 #include "../../Engine/Collisions/Collision.h"
-class LoaderOfFile {
- private:
-    const int w =119;
-    const int a =97;
-    const int s =115;
-    const int d =100;
-    const int i =105;
-    Entity create(char s, int row, int column);
+#include "../../BuildersEntity/BuilderHelmet.h"
+#include "../../WorkWithFiles/Reader.h"
+class LoaderReaderRecords {
  public:
-    map<int, ButtonAction*>* createButtonAction();
-    map<std::string, Collision*>* createInventoryAction();
-    map<pair<string, string>, Collision*>* createCollisions();
-    SystemManager* systemManager;
-    LoaderOfFile();
-    list<Scene>* load(string path);
-    SystemManager& manager();
-    Scene scene;
+   Reader<string>* load();
 };
 #endif

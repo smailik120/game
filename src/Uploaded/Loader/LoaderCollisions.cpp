@@ -1,0 +1,41 @@
+#include "../Loader/LoaderCollisions.h"
+map<pair<string, string>, Collision*>* LoaderCollisions::load() {
+     map<pair<string, string>, Collision*>* collisions = new map<pair<string, string>, Collision*>();
+    pair<string, string> playerBrick = pair<string, string>("player", "brick");
+    CollisionPlayerBrick* collisionPlayerBrick = new CollisionPlayerBrick();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerBrick, collisionPlayerBrick));
+    pair<string, string> playerMoney = pair<string, string>("player", "money");
+    CollisionPlayerMoney* collisionPlayerMoney = new CollisionPlayerMoney();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerMoney, collisionPlayerMoney));
+    pair<string, string> playerLevel = pair<string, string>("player", "up");
+    CollisionPlayerLevel* collisionPlayerLevel = new CollisionPlayerLevel();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerLevel, collisionPlayerLevel));
+    pair<string, string> playerTower = pair<string, string>("player", "tower");
+    CollisionPlayerTower* collisionPlayerTower = new CollisionPlayerTower();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerTower, collisionPlayerTower));
+    pair<string, string> towerPlayer = pair<string, string>("tower", "player");
+    CollisionTowerPlayer* collisionTowerPlayer = new CollisionTowerPlayer();
+    collisions->insert(pair<pair<string, string>, Collision*>(towerPlayer, collisionTowerPlayer));
+    pair<string, string> towerBrick = pair<string, string>("tower", "brick");
+    CollisionTowerBrick* collisionTowerBrick = new CollisionTowerBrick();
+    collisions->insert(pair<pair<string, string>, Collision*>(towerBrick, collisionTowerBrick));
+    pair<string, string> playerHelmet = pair<string, string>("player", "helmet");
+    CollisionPlayerHelmet* collisionPlayerHelmet = new CollisionPlayerHelmet();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerHelmet, collisionPlayerHelmet));
+    pair<string, string> playerArmor = pair<string, string>("player", "armor");
+    CollisionPlayerArmor* collisionPlayerArmor = new CollisionPlayerArmor();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerArmor, collisionPlayerArmor));
+    pair<string, string> playerPants = pair<string, string>("player", "pants");
+    CollisionPlayerPants* collisionPlayerPants = new CollisionPlayerPants();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerPants, collisionPlayerPants));
+    pair<string, string> playerSword = pair<string, string>("player", "weapon");
+    CollisionPlayerSword* collisionPlayerSword = new CollisionPlayerSword();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerSword, collisionPlayerSword));
+    pair<string, string> towerTower = pair<string, string>("tower", "tower");
+    CollisionTowerTower* collisionTowerTower = new CollisionTowerTower();
+    collisions->insert(pair<pair<string, string>, Collision*>(towerTower, collisionTowerTower));
+    pair<string, string> playerChest = pair<string, string>("player", "chest");
+    CollisionPlayerChest* collisionPlayerChest = new CollisionPlayerChest();
+    collisions->insert(pair<pair<string, string>, Collision*>(playerChest, collisionPlayerChest));
+    return collisions;
+}

@@ -2,21 +2,16 @@
 #include <string>
 #include <iostream>
 #include "../Systems/CameraSystem.h"
-void CameraSystem::draw(string s, int posX, int posY) {
+void CameraSystem::drawText(string s, int posX, int posY) {
     for (int i = 0; i < s.length(); i++) {
+        drawSymbol(s[i], posX, posY);
         posY++;
-        addch(s[i]);
-        move(posX, posY);
     }
 }
-void CameraSystem::refreshScreen() {
-    refresh();
-}
-void CameraSystem::clearScreen() {
-    clear();
-}
-void CameraSystem::endwinScreen() {
-    endwin();
+
+void CameraSystem::drawSymbol(char s, int posX, int posY) {
+    move(posX, posY);
+    addch(s);
 }
 void CameraSystem::update() {
     clear();
@@ -25,9 +20,8 @@ void CameraSystem::update() {
     for (list<Entity>::iterator it = entities->begin(); it != entities->end(); it++) {
         if (validate(&(*it))) {
             Position* pos = static_cast<Position*> ((&(*it))->getComponent("position"));
-            move(pos->getX(), pos->getY());
             Sprite* sprite = static_cast<Sprite*> (((&(*it))->getComponent("sprite")));
-            addch(sprite->getTexture());
+            drawSymbol(sprite->getTexture(), pos->getX(), pos->getY());
         }
     }
     Score* score = static_cast<Score*> ((entities->back()).getComponent("score"));
@@ -39,10 +33,11 @@ void CameraSystem::update() {
     string outScore = "Score:" + to_string(currentScore);
     string outHealth = "Health:" + to_string(currentHealth);
     string outDamage = "Damage:" + to_string(currentDamage);
-    information(20, 26, outScore);
-    information(21, 26, outHealth);
-    information(22, 26, outDamage);
+    drawText(outScore, 20, 26);
+    drawText(outHealth, 21, 26);
+    drawText(outDamage, 22, 26);
 }
+
 void CameraSystem::screenInventory() {
     clear();
     int posX = 0;
@@ -58,7 +53,7 @@ void CameraSystem::screenInventory() {
     list<Entity>* listBag = bag->getThings();
     Slots* slot = static_cast<Slots*> (player->getComponent("slots"));
     list<Entity>* listSlots = slot->getSlots();
-    information(posX, posY, "If you want exit press i, if you want change thing that press enter");
+    drawText("If you want exit press i, if you want change thing that press enter", posX, posY);
     posX++;
     for (list<Entity>::iterator it = listBag->begin(); it != listBag->end(); it++) {
         string info = "";
@@ -76,7 +71,7 @@ void CameraSystem::screenInventory() {
                  info = info + " this thing is equip";
             }
         }
-        information(posX, posY, info);
+        drawText(info, posX, posY);
         posX++;
     }
     refresh();
@@ -92,7 +87,6 @@ void CameraSystem::screenInventory() {
         if (ch == down) {
             posX--;
             move(posX, posY);
-            printw("<-");
         }
         if (ch == enter) {
             Entity* entity = bag->getThingByNumber(posX);
@@ -107,22 +101,21 @@ void CameraSystem::screenInventory() {
     }
     this->update();
 }
+
 int CameraSystem::putThing(Entity* entity) {
-    information(18, 26, "Do you want take " + entity->getName() + "?");
-    information(19, 26, "If you want take this press y else press n");
+    drawText("Do you want take " + entity->getName() + "?", 18, 26);
+    drawText("If you want take this press y else press n", 19, 26);
     int ch = getch();
     while (ch != 121 && ch != 110) {
         ch = getch();
     }
     return ch;
 }
-void CameraSystem::information(int posX, int posY, string text) {
-    move(posX, posY);
-    draw(text, posX, posY);
-}
+
 bool CameraSystem::validate(Entity* entity) {
     return !(entity->getComponent("position") == NULL || entity->getComponent("sprite") == NULL);
 }
+
 void CameraSystem::drawFinalTable(list<string> scores) {
     clear();
     printw("Table scores");
@@ -134,11 +127,15 @@ void CameraSystem::drawFinalTable(list<string> scores) {
         string name = *it;
         it++;
         string record = *it;
-        draw(name + " " + record, posX, posY);
+        drawText(name + " " + record, posX, posY);
     }
     getch();
-    clear();
+    posX++;
+    move(posX, posY);
+    printw("press button that exit");
+    refresh();
 }
+
 char* CameraSystem::drawStartScreen() {
     printw("Enter your name");
     move(1, 0);
@@ -148,16 +145,23 @@ char* CameraSystem::drawStartScreen() {
     noecho();
     return name;
 }
-void CameraSystem::screenAgain() {
-    printw("If you want start again press Button");
-    refresh();
-    getch();
-    clear();
-}
-void CameraSystem::loose() {
+
+void CameraSystem::drawLooseScreen() {
     clear();
     printw("you loose, press button that saw table scores");
     refresh();
     getch();
     clear();
+}
+
+void CameraSystem::clearScreen() {
+    clear();
+}
+
+void CameraSystem::refreshScreen() {
+    refresh();
+}
+
+void endGame() {
+    endwin();
 }

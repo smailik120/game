@@ -12,13 +12,14 @@ void ScoreSystem::update() {
                 CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
                 list<string> scores;
                 scores = engine->getReadOfTable()->read();
-                cameraSystem->loose();
+                cameraSystem->drawLooseScreen();
                 cameraSystem->drawFinalTable(scores);
                 engine->end();
             }
         }
     }
 }
+
 bool ScoreSystem::validate(Entity* entity) {
     return !(entity->getComponent("score") == NULL || entity->getComponent("sprite") == NULL);
 }

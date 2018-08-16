@@ -4,9 +4,11 @@
 Slots::Slots(list<Entity>* slots) {
     this->slots = slots;
 }
+
 list<Entity>* Slots::getSlots() {
     return slots;
 }
+
 Entity* Slots::getHelmet() {
     for (list<Entity>::iterator it = slots->begin(); it != slots->end(); it++) {
         if (it->getName() == "helmet") {
@@ -16,6 +18,7 @@ Entity* Slots::getHelmet() {
     }
     return NULL;
 }
+
 Entity* Slots::getArmor() {
     for (list<Entity>::iterator it = slots->begin(); it != slots->end(); it++) {
         if (it->getName() == "armor") {
@@ -25,6 +28,7 @@ Entity* Slots::getArmor() {
     }
     return NULL;
 }
+
 Entity* Slots::getPants() {
     for (list<Entity>::iterator it = slots->begin(); it != slots->end(); it++) {
         if (it->getName() == "pants") {
@@ -34,6 +38,7 @@ Entity* Slots::getPants() {
     }
     return NULL;
 }
+
 Entity* Slots::getWeapon() {
     for (list<Entity>::iterator it = slots->begin(); it != slots->end(); it++) {
         if (it->getName() == "weapon") {
@@ -43,6 +48,7 @@ Entity* Slots::getWeapon() {
     }
     return NULL;
 }
+
 void Slots::eraseByName(std::string name) {
     for (list<Entity>::iterator it = slots->begin(); it != slots->end(); it++) {
         if (it->getName() == name) {

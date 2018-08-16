@@ -8,6 +8,7 @@
 using namespace std;
 MoveSystem::MoveSystem() {
 }
+
 void MoveSystem::collideAfterMove() {
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
@@ -19,18 +20,19 @@ void MoveSystem::collideAfterMove() {
         move(player, &(*it));
         for (list<Entity>::iterator it1 = entities->begin(); it1 != entities->end(); it1++) {
             Position* positionFirstEntity = static_cast<Position*> ((&(*it1))->getComponent("position"));
-                string name = it->getName();
-                string name1 = it1->getName();
-                if (positionFirstEntity->getX() == positionSecondEntity->getX()) {
-                    if (positionFirstEntity->getY() == positionSecondEntity->getY() && it->currentId != it1->currentId) {
-                        if ((*collisions)[pair<string, string>(name1, name)] != 0) {
-                            (*collisions)[pair<string, string>(name1, name)]->Action(&(*it), &(*it1));
-                        }
+            string name = it->getName();
+            string name1 = it1->getName();
+            if (positionFirstEntity->getX() == positionSecondEntity->getX()) {
+                if (positionFirstEntity->getY() == positionSecondEntity->getY() && it->currentId != it1->currentId) {
+                    if ((*collisions)[pair<string, string>(name1, name)] != 0) {
+                        (*collisions)[pair<string, string>(name1, name)]->Action(&(*it), &(*it1));
                     }
                 }
             }
         }
+    }
 }
+
 bool MoveSystem::distance(int distanceX, int distanceY, Entity* entity) {
     if (entity->getComponent("position") != NULL) {
         Anger* anger = static_cast<Anger*> (entity->getComponent("anger"));
@@ -39,6 +41,7 @@ bool MoveSystem::distance(int distanceX, int distanceY, Entity* entity) {
         return false;
     }
 }
+
 void MoveSystem::move(Entity* player, Entity* another) {
     Position* positionPlayer = static_cast<Position*> (player->getComponent("position"));
     Velocity* velocityPlayer = static_cast<Velocity*> (player->getComponent("velocity"));
@@ -46,26 +49,27 @@ void MoveSystem::move(Entity* player, Entity* another) {
     Velocity* velocitySecondEntity = static_cast<Velocity*> (another->getComponent("velocity"));
     int distanceX = positionSecondEntity->getX()-positionPlayer->getX();
     int distanceY = positionSecondEntity->getY()-positionPlayer->getY();
-        if (distance(distanceX, distanceY, another)) {
-            if (std::abs(distanceX) > std::abs(distanceY)) {
-                if (positionPlayer->getX() > positionSecondEntity->getX()) {
-                    velocitySecondEntity->setSpeedX(1);
-                } else if (positionPlayer->getX() < positionSecondEntity->getX()) {
-                    velocitySecondEntity->setSpeedX(-1);
-                }
-                velocitySecondEntity->setSpeedY(0);
-                } else {
-                    if (positionPlayer->getY() > positionSecondEntity->getY()) {
-                        velocitySecondEntity->setSpeedY(1);
-                    } else if (positionPlayer->getY() < positionSecondEntity->getY()) {
-                        velocitySecondEntity->setSpeedY(-1);
-                    }
-                    velocitySecondEntity->setSpeedX(0);
-                }
-                positionSecondEntity->setX(positionSecondEntity->getX() + velocitySecondEntity->getSpeedX());
-                positionSecondEntity->setY(positionSecondEntity->getY() + velocitySecondEntity->getSpeedY());
+    if (distance(distanceX, distanceY, another)) {
+        if (std::abs(distanceX) > std::abs(distanceY)) {
+            if (positionPlayer->getX() > positionSecondEntity->getX()) {
+                velocitySecondEntity->setSpeedX(1);
+            } else if (positionPlayer->getX() < positionSecondEntity->getX()) {
+                velocitySecondEntity->setSpeedX(-1);
             }
+            velocitySecondEntity->setSpeedY(0);
+        } else {
+                if (positionPlayer->getY() > positionSecondEntity->getY()) {
+                    velocitySecondEntity->setSpeedY(1);
+                } else if (positionPlayer->getY() < positionSecondEntity->getY()) {
+                    velocitySecondEntity->setSpeedY(-1);
+                }
+                velocitySecondEntity->setSpeedX(0);
+        }
+        positionSecondEntity->setX(positionSecondEntity->getX() + velocitySecondEntity->getSpeedX());
+        positionSecondEntity->setY(positionSecondEntity->getY() + velocitySecondEntity->getSpeedY());
+    }
 }
+
 void MoveSystem::update() {
     Engine* engine = Engine::getEngine();
     collisions = engine->getMapCollisions();
@@ -74,6 +78,7 @@ void MoveSystem::update() {
     collide();
     collideAfterMove();
 }
+
 void MoveSystem::collide() {
     int k = 0;
     Engine* engine = Engine::getEngine();

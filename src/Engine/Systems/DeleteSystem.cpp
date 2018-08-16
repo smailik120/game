@@ -37,6 +37,7 @@ void DeleteSystem::update() {
         }
     }
 }
+
 bool DeleteSystem::validate(Entity* entity) {
     return
     !(entity->getComponent("death") == NULL
