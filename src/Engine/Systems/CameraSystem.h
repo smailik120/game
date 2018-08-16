@@ -24,5 +24,6 @@ class CameraSystem : public System {
     void endGame();
     void clearScreen();
     void refreshScreen();
+    void drawWindow(int posX, int posY, int sizeX, int sizeY,string name);
 };
 #endif

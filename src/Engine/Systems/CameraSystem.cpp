@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <list>
 #include <string>
 #include <iostream>
@@ -14,7 +16,8 @@ void CameraSystem::drawSymbol(char s, int posX, int posY) {
     addch(s);
 }
 void CameraSystem::update() {
-    clear();
+    drawWindow(18, 24, 15, 5, "Info");
+    drawWindow(18, 40, 15, 5, "Log");
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
     for (list<Entity>::iterator it = entities->begin(); it != entities->end(); it++) {
@@ -36,10 +39,10 @@ void CameraSystem::update() {
     drawText(outScore, 20, 26);
     drawText(outHealth, 21, 26);
     drawText(outDamage, 22, 26);
+    
 }
 
 void CameraSystem::screenInventory() {
-    clear();
     int posX = 0;
     int posY = 0;
     const int i = 105;
@@ -114,6 +117,30 @@ int CameraSystem::putThing(Entity* entity) {
 
 bool CameraSystem::validate(Entity* entity) {
     return !(entity->getComponent("position") == NULL || entity->getComponent("sprite") == NULL);
+}
+
+void CameraSystem::drawWindow(int posX, int posY, int sizeX, int sizeY, string name) {
+    drawText(name , posX + 1, posY + 1);
+    int tempX = 0;
+    int tempY = 1;
+    string up = "";
+    while(tempX != sizeX) {
+        up = up + "-";
+        tempX++;
+    }
+    tempX = 1;
+    drawText(up, posX, posY);
+    drawText(up, posX + sizeY, posY);
+    while(tempX != sizeY) {
+        drawSymbol('|', tempX + posX,posY);
+        tempX++;
+    }
+    tempX = 1;
+    while(tempX != sizeY) {
+        drawSymbol('|', tempX + posX, posY + sizeX - 1);
+        tempX++;
+    }
+    refresh();
 }
 
 void CameraSystem::drawFinalTable(list<string> scores) {
