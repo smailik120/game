@@ -2,6 +2,7 @@
 #define _COLLISIONTOWERPLAYER_H
 #include "../Collisions/Collision.h"
 #include "../Entity/Entity.h"
+#include "../Entity/Engine.h"
 #include "../Components/Position.h"
 #include "../Components/Score.h"
 #include "../Components/Health.h"

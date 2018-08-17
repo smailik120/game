@@ -21,6 +21,8 @@ void CollisionPlayerPants::Action(Entity* player, Entity* pants) {
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
     int change = cameraSystem->putThing(pants);
     if (change == buttonTake) {
+        pair<int, int>* coordinates = cameraSystem->log;
+        engine->logs->push_front("The player took pants");
         if (slots->getPants() == NULL) {
             listSlots->push_front(entity);
         }

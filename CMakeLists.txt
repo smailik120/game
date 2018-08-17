@@ -10,7 +10,7 @@ list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/CMake") # добавляе�
 
 # Подключаем библиотеку ncurses
 find_package(Curses REQUIRED)
-include_directories(${CURSES_INCLUDE_DIR})
+include_directories(${src})
 
 SET(PROJECT_HEADERS_DIR ${PROJECT_SOURCE_DIR}/src)
 SET(PROJECT_SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)

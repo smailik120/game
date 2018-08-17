@@ -1,6 +1,7 @@
 #ifndef _COLLISIONPLAYERPANTS_H
 #define _COLLISIONPLAYERPANTS_H
 #include "../Collisions/Collision.h"
+#include "../Entity/Engine.h"
 #include "../Entity/Entity.h"
 #include "../Components/Position.h"
 #include "../Components/Score.h"

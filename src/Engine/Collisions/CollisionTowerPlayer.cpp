@@ -1,4 +1,4 @@
-
+#include <iostream>
 #include "../Collisions/CollisionTowerPlayer.h"
 void CollisionTowerPlayer::Action(Entity* tower, Entity* player) {
     Health* healthPlayer = static_cast<Health*> (player->getComponent("health"));
@@ -12,6 +12,7 @@ void CollisionTowerPlayer::Action(Entity* tower, Entity* player) {
     Score* scoreTower = static_cast<Score*> (tower->getComponent("score"));
     Damage* damagePlayer = static_cast<Damage*> (player->getComponent("damage"));
     healthTower->setHealth(healthTower->getHealth() - damagePlayer->getDamage());
+    refresh();
     if (velocityPlayer->getSpeedY() > 0) {
         positionPlayer->setY(positionPlayer->getY() - velocityPlayer->getSpeedY());
     }

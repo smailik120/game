@@ -20,6 +20,8 @@ void CollisionPlayerSword::Action(Entity* player, Entity* sword) {
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
     int change = cameraSystem->putThing(sword);
     if (change == 121) {
+        pair<int, int>* coordinates = cameraSystem->log;
+        engine->logs->push_front("The player took sword");
         if (slots->getWeapon() == NULL) {
             listSlots->push_front(entity);
         }

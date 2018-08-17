@@ -38,6 +38,7 @@ class Engine {
     Engine();
 
  public:
+    list<string>* logs = new list<string>();
     Writer<string>* writerToTable;
     Reader<string>* readerOfTable;
     Scene* currentScene;

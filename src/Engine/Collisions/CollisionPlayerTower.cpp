@@ -16,6 +16,10 @@ void CollisionPlayerTower::Action(Entity* tower, Entity* player) {
         death->setDeath(true);
     } else {
         healthPlayer->setHealth(healthPlayer->getHealth() - damageTower->getDamage());
+        Engine* engine = Engine::getEngine();
+        CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
+        pair<int, int>* coordinates = cameraSystem->log;
+        engine->logs->push_front("The player recieved " + to_string(damageTower->getDamage()) + " damage");
     }
     if (velocityTower->getSpeedY() > 0) {
         positionTower->setY(positionTower->getY() - velocityTower->getSpeedY());

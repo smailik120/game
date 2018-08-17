@@ -9,6 +9,7 @@ void CameraSystem::drawText(string s, int posX, int posY) {
         drawSymbol(s[i], posX, posY);
         posY++;
     }
+    refresh();
 }
 
 void CameraSystem::drawSymbol(char s, int posX, int posY) {
@@ -16,8 +17,9 @@ void CameraSystem::drawSymbol(char s, int posX, int posY) {
     addch(s);
 }
 void CameraSystem::update() {
-    drawWindow(18, 24, 15, 5, "Info");
-    drawWindow(18, 40, 15, 5, "Log");
+    clear();
+    info = drawWindow(18, 24, 15, 5, "Info");
+    log = drawWindow(18, 40, 40, 5, "Log");
     Engine* engine = Engine::getEngine();
     list<Entity>* entities = engine->getCurrentScene()->getEntities();
     for (list<Entity>::iterator it = entities->begin(); it != entities->end(); it++) {
@@ -39,7 +41,7 @@ void CameraSystem::update() {
     drawText(outScore, 20, 26);
     drawText(outHealth, 21, 26);
     drawText(outDamage, 22, 26);
-    
+    drawToLog(3);
 }
 
 void CameraSystem::screenInventory() {
@@ -106,8 +108,8 @@ void CameraSystem::screenInventory() {
 }
 
 int CameraSystem::putThing(Entity* entity) {
-    drawText("Do you want take " + entity->getName() + "?", 18, 26);
-    drawText("If you want take this press y else press n", 19, 26);
+    drawText("Do you want take " + entity->getName() + "?", 14, 26);
+    drawText("If you want take this press y else press n", 15, 26);
     int ch = getch();
     while (ch != 121 && ch != 110) {
         ch = getch();
@@ -119,7 +121,7 @@ bool CameraSystem::validate(Entity* entity) {
     return !(entity->getComponent("position") == NULL || entity->getComponent("sprite") == NULL);
 }
 
-void CameraSystem::drawWindow(int posX, int posY, int sizeX, int sizeY, string name) {
+pair<int, int>* CameraSystem::drawWindow(int posX, int posY, int sizeX, int sizeY, string name) {
     drawText(name , posX + 1, posY + 1);
     int tempX = 0;
     int tempY = 1;
@@ -141,6 +143,7 @@ void CameraSystem::drawWindow(int posX, int posY, int sizeX, int sizeY, string n
         tempX++;
     }
     refresh();
+    return new pair<int, int>(posX, posY);
 }
 
 void CameraSystem::drawFinalTable(list<string> scores) {
@@ -191,4 +194,20 @@ void CameraSystem::refreshScreen() {
 
 void endGame() {
     endwin();
+}
+
+void CameraSystem::drawToLog(int number) {
+    Engine* engine = Engine::getEngine();
+    int counter = 0;
+    int posX = log->first + 2;
+    int posY = log->second + 1;
+    for (list<string>:: iterator it = engine->logs->begin(); it != engine->logs->end(); it++) {
+        if (counter == number) {
+            break;
+        } else {
+            drawText(*it, posX, posY);
+            posX++;
+            counter++;
+        }
+    }
 }

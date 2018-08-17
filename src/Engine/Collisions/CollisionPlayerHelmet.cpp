@@ -21,6 +21,8 @@ void CollisionPlayerHelmet::Action(Entity* player, Entity* helmet) {
     CameraSystem* cameraSystem = static_cast<CameraSystem*> (engine->callSystem("camera"));
     int change = cameraSystem->putThing(helmet);
     if (change == 121) {
+        pair<int, int>* coordinates = cameraSystem->log;
+        engine->logs->push_front("The player took helmet");
         if (slots->getHelmet() == NULL) {
             listSlots->push_front(entity);
         }

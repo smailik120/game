@@ -12,6 +12,8 @@ class CameraSystem : public System {
  private:
     Camera* camera;
  public:
+    pair<int, int>* log = new pair<int, int>();
+    pair<int, int>* info = new pair<int, int>();
     void update();
     void drawText(string s, int posX, int posY);
     bool validate(Entity* entity);
@@ -24,6 +26,7 @@ class CameraSystem : public System {
     void endGame();
     void clearScreen();
     void refreshScreen();
-    void drawWindow(int posX, int posY, int sizeX, int sizeY,string name);
+    void drawToLog(int number);
+    pair<int, int>* drawWindow(int posX, int posY, int sizeX, int sizeY,string name);
 };
 #endif

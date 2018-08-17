@@ -1,6 +1,7 @@
 #ifndef _COLLISIONPLAYERHELMET_H
 #define _COLLISIONPLAYERHELMET_H
 #include "../Collisions/Collision.h"
+#include "../Entity/Engine.h"
 #include "../Entity/Entity.h"
 #include "../Components/Position.h"
 #include "../Components/Score.h"
